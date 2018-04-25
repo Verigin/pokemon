@@ -1,17 +1,21 @@
 import { combineReducers } from 'redux'
-import { GET_PAKEMON_LIST, ADD_PAKEMON_TO_STATE } from './constants'
+import { GET_PAKEMON_LIST, ADD_PAKEMON_TO_STATE, CLEAR_STATE } from './constants'
 
 const appReducer = combineReducers({
-  pakemons
+  pokemons
 })
 
-function pakemons(state = [], action) {
+function pokemons(state = [], action) {
 
   switch (action.type) {
     case GET_PAKEMON_LIST: {
       console.log("pakemons", action.list)
       //state = state.slice()
       //state = action.list
+      break;
+    }
+    case CLEAR_STATE: {
+      state = []
       break;
     }
     case ADD_PAKEMON_TO_STATE: {

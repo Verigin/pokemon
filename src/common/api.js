@@ -24,10 +24,10 @@ function getApiData(url) {
 //       });
 // }
 
-export function loadPakemonList() {
+export function loadPakemonList(count) {
   console.log('loadPakemonList')
   return function(dispatch) {
-    getApiData('https://pokeapi.co/api/v2/pokemon/')
+    getApiData('https://pokeapi.co/api/v2/pokemon/?limit='+count)
     .then(response => {
       return response.text();
     })
