@@ -3,7 +3,9 @@ import {
   GET_PAKEMON_LIST,
   ADD_PAKEMON_TO_STATE,
   CLEAR_STATE,
-  CONNETCTING_TO_API
+  CONNETCTING_TO_API,
+  WARNING_API,
+  ERROR_API
 } from './constants'
 
 const appReducer = combineReducers({
@@ -25,6 +27,16 @@ function status (state = '', action) {
       state = action.status
       break
     }
+    case WARNING_API: {
+      state = action.status
+      break
+    }
+    case ERROR_API: {
+      state = action.status
+      break
+    }
+    default: {
+    }
   }
   return state
 }
@@ -36,10 +48,11 @@ function pokemons (state = [], action) {
       break
     }
     case ADD_PAKEMON_TO_STATE: {
-      // console.log("add pakemon from reducer", action.pakemon)
       state = state.slice()
       state.push(action.pakemon)
       break
+    }
+    default: {
     }
   }
   return state

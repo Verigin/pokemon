@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'reactstrap'
+import { Label } from 'reactstrap'
 
 class PokemonTypeItem extends Component {
   click (e) {
@@ -8,9 +8,18 @@ class PokemonTypeItem extends Component {
 
   render () {
     return (
-      <Button onClick={this.click.bind(this)} value={this.props.name}>
-        {this.props.name}
-      </Button>
+      <div>
+        <Label>
+          <input
+            type='radio'
+            onClick={this.click.bind(this)}
+            value={this.props.name}
+            name='type'
+          />
+          {' '}
+          {this.props.name}
+        </Label>{' '}
+      </div>
     )
   }
 }

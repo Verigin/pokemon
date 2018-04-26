@@ -1,7 +1,10 @@
 import {
   getPakemonList,
   addPakemonToState,
-  connectingToApi
+  connectingToApi,
+  warningApi,
+  errorApi,
+  clearState
 } from '../redux/actions'
 
 function getApiData (url) {
@@ -19,26 +22,44 @@ function getApiData (url) {
 }
 
 export function loadPakemonList (count) {
-  console.log('loadPakemonList')
+  // console.log('loadPakemonList')
   return function (dispatch) {
+    dispatch(clearState())
     dispatch(connectingToApi())
-    getApiData('https://pokeapi.co/api/v2/pokemon/?limit=' + count)
-      .then(response => {
-        return response.text()
-      })
-      .then(text => {
-        let res = JSON.parse(text).results
-        console.log(res)
-        dispatch(getPakemonList())
-        res.forEach(element => {
-          getApiData(element.url)
-            .then(response => {
-              return response.text()
-            })
-            .then(text => {
-              dispatch(addPakemonToState(JSON.parse(text)))
-            })
+    try {
+      getApiData('https://pokeapi.co/api/v2/pokemon/?limit=' + count)
+        .then(response => {
+          return response.text()
         })
-      })
+        .then(text => {
+          let res = JSON.parse(text)
+          if (res.detail !== undefined) {
+            dispatch(warningApi(res.detail))
+          } else {
+            dispatch(getPakemonList())
+            let results = JSON.parse(text).results
+            results.forEach(element => {
+              try {
+                getApiData(element.url)
+                  .then(response => {
+                    return response.text()
+                  })
+                  .then(text => {
+                    let res = JSON.parse(text)
+                    if (res.detail !== undefined) {
+                      dispatch(warningApi(res.detail))
+                    } else {
+                      dispatch(addPakemonToState(JSON.parse(text)))
+                    }
+                  })
+              } catch (err) {
+                dispatch(errorApi(err))
+              }
+            })
+          }
+        })
+    } catch (err) {
+      dispatch(errorApi(err))
+    }
   }
 }

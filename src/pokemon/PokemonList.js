@@ -1,24 +1,21 @@
 import React, { Component } from 'react'
-import { Row, Label, Progress, FormGroup, Form, Col } from 'reactstrap'
+import { Row, Label, Progress, FormGroup, Col } from 'reactstrap'
 import PokemonListItem from './PokemonListItem'
 import Pagination from 'react-js-pagination'
 import 'bootstrap/dist/css/bootstrap.css'
 
 class PokemonList extends Component {
   componentWillMount () {
-    console.log('componentWillMount', this.props.itemsCount)
     this.props.onGetPakemonList(this.props.itemsCount)
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log('componentWillRecieveProps', nextProps)
     if (nextProps.itemsCount !== this.props.itemsCount) {
       this.props.onGetPakemonList(nextProps.itemsCount)
     }
   }
 
   handlePageChange (pageNumber) {
-    console.log(`active page is ${pageNumber}`)
     this.props.changeActivePage(pageNumber)
   }
 
@@ -43,19 +40,25 @@ class PokemonList extends Component {
               <PokemonListItem key={index} item={item} />
             ))}
           </Row>
-          <Row>
-            <Col>
-              <Pagination
-                activePage={this.props.activePage}
-                itemsCountPerPage={this.props.itemsCountPerPage}
-                totalItemsCount={this.props.totalItemsCount}
-                pageRangeDisplayed={100}
-                onChange={this.handlePageChange.bind(this)}
-                itemClass='page-link'
-                activeClass='active'
-              />
-            </Col>
-          </Row>
+          {this.props.totalItemsCount > this.props.itemsCountPerPage &&
+            <div>
+              <Row>
+                <hr />
+              </Row>
+              <Row>
+                <Col>
+                  <Pagination
+                    activePage={this.props.activePage}
+                    itemsCountPerPage={this.props.itemsCountPerPage}
+                    totalItemsCount={this.props.totalItemsCount}
+                    pageRangeDisplayed={100}
+                    onChange={this.handlePageChange.bind(this)}
+                    itemClass='page-link'
+                    activeClass='active'
+                  />
+                </Col>
+              </Row>
+            </div>}
         </Col>
       </Row>
     )

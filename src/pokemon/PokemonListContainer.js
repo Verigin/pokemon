@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import PokemonList from './PokemonList'
 import { loadPakemonList } from '../common/api'
-import { clearState } from '../redux/actions'
 import { getPokemonsFilteredByNameAndType } from '../redux/selectors'
 
 const mapStateToProps = (state, ownProps) => {
@@ -30,7 +29,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onGetPakemonList: count => {
-      dispatch(clearState()), dispatch(loadPakemonList(count))
+      dispatch(loadPakemonList(count))
     }
   }
 }

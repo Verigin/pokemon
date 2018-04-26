@@ -48,13 +48,13 @@ class Pokemon extends Component {
           <Col lg='4' md='4' sm='1'>
             <Form>
               <FormGroup>
-                <Label>Search</Label>
+                <Label>Search by name</Label>
                 <Input
                   type='text'
                   name='search'
                   value={this.state.searchName}
                   onChange={this.onChangeName.bind(this)}
-                  placeholder='search'
+                  placeholder='input name'
                 />
               </FormGroup>
               <FormGroup>
@@ -73,18 +73,30 @@ class Pokemon extends Component {
               <FormGroup>
                 <Label>Items count</Label>
                 <Input
+                  defaultValue='9'
                   onChange={this.onChangeItemsCount.bind(this)}
                   type='select'
                   name='itemsCount'
                 >
                   <option>3</option>
-                  <option selected>9</option>
+                  <option>9</option>
                   <option>18</option>
                   <option>36</option>
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label>Types</Label>
+                <Label>Types</Label>{' '}
+                <Label>
+
+                  <input
+                    type='radio'
+                    onClick={() => this.onChangeType('')}
+                    name='type'
+                    checked={this.state.searchType === '' && 'checked'}
+                  />
+                  {' '}
+                  All
+                </Label>
                 <PokemonTypeContainer
                   changeType={this.onChangeType.bind(this)}
                 />
