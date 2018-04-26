@@ -1,71 +1,108 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import PokemonListContainer from './PokemonListContainer'
 import PokemonTypeContainer from './PokemonTypeContainer'
-import { Container, Input } from 'reactstrap';
-
+import { Container, Input, Col, Row, Form, FormGroup, Label } from 'reactstrap'
 
 class Pokemon extends Component {
   constructor () {
     super()
     this.state = {
-      searchName: '', 
+      searchName: '',
       searchType: '',
       activePage: 1,
-      itemsCountPerPage: 4,
-      itemsCount: 8
+      itemsCountPerPage: 3,
+      itemsCount: 9
     }
   }
 
-  onChangeType(type) {
+  onChangeType (type) {
     if (this.state.searchType !== type) {
-      this.setState({searchType: type})
-    }
-    else this.setState({searchType: ''})
+      this.setState({ searchType: type })
+    } else this.setState({ searchType: '' })
+    this.setState({ activePage: 1 })
   }
 
-  onChangeName(e) {
-    this.setState({searchName: e.target.value})
+  onChangeName (e) {
+    this.setState({ searchName: e.target.value })
+    this.setState({ activePage: 1 })
   }
 
-  onChangeActivePage(current) {
-    this.setState({activePage: current})
+  onChangeActivePage (current) {
+    this.setState({ activePage: current })
   }
 
-  onChangeItemsCountPerPage(e) {
-    this.setState({itemsCountPerPage: e.target.value})
+  onChangeItemsCountPerPage (e) {
+    this.setState({ itemsCountPerPage: e.target.value })
+    this.setState({ activePage: 1 })
   }
 
-  onChangeItemsCount(e) {
-    this.setState({itemsCount: e.target.value})
-    console.log('onChangeItemsCount')
+  onChangeItemsCount (e) {
+    this.setState({ itemsCount: e.target.value })
+    this.setState({ activePage: 1 })
   }
 
-  render() {
+  render () {
     return (
-    <Container>
-      <Input type="text" name="search" value={this.state.searchName} onChange={this.onChangeName.bind(this)} placeholder="search" />
-      <Input onChange={this.onChangeItemsCountPerPage.bind(this)} type="select" name="itemsCountPerPage">
-            <option>4</option>
-            <option>8</option>
-            <option>12</option>
-            <option>16</option>
-          </Input>
-      <Input onChange={this.onChangeItemsCount.bind(this)} type="select" name="itemsCount">
-            <option>4</option>
-            <option>8</option>
-            <option>16</option>
-            <option>32</option>
-          </Input>    
-      <PokemonTypeContainer changeType={this.onChangeType.bind(this)}/>
-      <PokemonListContainer 
-        searchName={this.state.searchName}  
-        searchType={this.state.searchType}
-        activePage={this.state.activePage} 
-        changeActivePage={this.onChangeActivePage.bind(this)}
-        itemsCountPerPage={this.state.itemsCountPerPage}
-        itemsCount={this.state.itemsCount}
-        />
-    </Container>
+      <Container>
+        <Row>
+          <Col lg='4' md='4' sm='1'>
+            <Form>
+              <FormGroup>
+                <Label>Search</Label>
+                <Input
+                  type='text'
+                  name='search'
+                  value={this.state.searchName}
+                  onChange={this.onChangeName.bind(this)}
+                  placeholder='search'
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label>Items count per page</Label>
+                <Input
+                  onChange={this.onChangeItemsCountPerPage.bind(this)}
+                  type='select'
+                  name='itemsCountPerPage'
+                >
+                  <option>3</option>
+                  <option>9</option>
+                  <option>18</option>
+                  <option>36</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label>Items count</Label>
+                <Input
+                  onChange={this.onChangeItemsCount.bind(this)}
+                  type='select'
+                  name='itemsCount'
+                >
+                  <option>3</option>
+                  <option selected>9</option>
+                  <option>18</option>
+                  <option>36</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label>Types</Label>
+                <PokemonTypeContainer
+                  changeType={this.onChangeType.bind(this)}
+                />
+              </FormGroup>
+            </Form>
+          </Col>
+          <Col lg='8' md='8' sm='1'>
+            <PokemonListContainer
+              searchName={this.state.searchName}
+              searchType={this.state.searchType}
+              activePage={this.state.activePage}
+              changeActivePage={this.onChangeActivePage.bind(this)}
+              itemsCountPerPage={this.state.itemsCountPerPage}
+              itemsCount={this.state.itemsCount}
+            />
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }
